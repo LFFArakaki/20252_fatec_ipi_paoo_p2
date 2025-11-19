@@ -1,6 +1,3 @@
-//se o import não funcionar
-// const express = require('express')
-// const axios = require('axios')
 import express from 'express'
 import axios from 'axios'
 const app = express()
@@ -8,7 +5,6 @@ app.use(express.json())
 
 const eventos = []
 
-//POST /eventos
 app.post('/eventos', async (req, res) => {
   const evento = req.body
   eventos.push(evento)
@@ -32,12 +28,9 @@ app.post('/eventos', async (req, res) => {
   res.end()
 })
 
-
-//viabilizar a obtenção da base de eventos
 app.get('/eventos', (req, res) => {
   res.json(eventos)
 })
-
 
 const port = 10000
 app.listen(port, () => {
