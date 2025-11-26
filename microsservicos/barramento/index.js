@@ -87,10 +87,6 @@ app.get('/eventos', (req, res) => {
   res.json(eventos)
 })
 
-app.get('/a', (req, res) => {
-  res.json(mssEventos)
-})
-
 const port = 10000
 app.listen(port, () => {
   console.log(`Barramento. Porta ${port}.`)
