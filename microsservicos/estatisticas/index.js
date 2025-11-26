@@ -35,7 +35,6 @@ app.get('/estatistica', (req, res) => {
   res.json(estatisticas)
 })
  
-// Endpoint para receber eventos
 app.post('/eventos', (req, res) => {
   try {
     const evento = req.body
