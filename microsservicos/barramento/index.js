@@ -3,11 +3,21 @@ import axios from 'axios'
 const app = express()
 app.use(express.json())
 
-const eventos = []
+const eventos = {
+
+  LembreteCriado: [],
+  LembreteClassificado: [],
+  LembreteAtualizado: [],
+  ObservacaoCriada: [],
+  ObservacaoClassificada: [],
+  ObservacaoAtualizada: [],
+  LogRegistrado: []
+  
+}
 
 app.post('/eventos', async (req, res) => {
   const evento = req.body
-  eventos.push(evento)
+  eventos[evento.type].push(evento)
   console.log(evento)
   try{
     await axios.post('http://localhost:4000/eventos', evento)
