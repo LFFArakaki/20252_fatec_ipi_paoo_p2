@@ -5,7 +5,7 @@ app.use(express.json())
 
 let id = 0
 const lembretes = {}
-
+const eventosImportantes = []
 const funcoes = {
   LembreteClassificado: (lembrete) => {
     const lembreteParaAtualizar = lembretes[lembrete.id]
@@ -45,4 +45,7 @@ app.post('/eventos', (req, res) => {
 })
 
 const port = 4000
-app.listen(port, () => console.log(`Lembretes. Porta ${port}.`))
+app.listen(port, () => {
+  console.log(`Lembretes. Porta ${port}.`)
+  axios.post('http://localhost:10000/registrar', {porta: port, eventos: eventosImportantes})
+})

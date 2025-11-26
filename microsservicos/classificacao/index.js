@@ -4,6 +4,7 @@ const app = express()
 
 app.use(express.json())
 const palavraChave = 'importante'
+const eventosImportantes = ['ObservacaoCriada', 'LembreteCriado']
 const funcoes = {
   ObservacaoCriada: (observacao) => {
     if(observacao.texto.includes(palavraChave))
@@ -38,14 +39,17 @@ app.post('/eventos', (req, res) => {
 })
 
 const port = 7000
-app.listen(port, () => {
+app.listen(port, async () => {
   console.log(`Classificação. Porta ${port}.`)
   axios.get('http://localhost:10000/eventos').then(({data: eventos}) => {
-    for(let evento of eventos){
-      try{
-        funcoes[evento.type](evento.payload)
+    for(let eventoI of eventosImportantes){
+      for(let evento of eventos[eventoI]){
+        try{
+          funcoes[evento.type](evento.payload)
+        }
+        catch(e){}
       }
-      catch(e){}
     }
   })
+  axios.post('http://localhost:10000/registrar', {porta: port, eventos: eventosImportantes})
 })

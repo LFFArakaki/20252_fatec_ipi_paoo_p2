@@ -2,7 +2,8 @@ const express = require('express')
 const axios = require('axios')
 const app = express()
 app.use(express.json())
- 
+
+const eventosImportantes = ['ObservacaoClassificada', 'LembreteClassificado']
 const estatisticas = {
   totalLembretes: 0,
   lembretesComuns: 0,
@@ -49,11 +50,14 @@ const port = 9000
 app.listen(port, () => {
   console.log(`Estatística. Porta ${port}.`)
   axios.get('http://localhost:10000/eventos').then(({data: eventos}) => {
-    for(let evento of eventos){
-      try{
-        funcoes[evento.type](evento.payload)
+    for(let eventoI of eventosImportantes){
+      for(let evento of eventos[eventoI]){
+        try{
+          funcoes[evento.type](evento.payload)
+        }
+        catch(e){}
       }
-      catch(e){}
     }
   })
+  axios.post('http://localhost:10000/registrar', {porta: port, eventos: eventosImportantes})
 })
